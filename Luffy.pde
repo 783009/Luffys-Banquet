@@ -250,7 +250,7 @@ void draw() {
       fill(0);
       textAlign(RIGHT);
       // Change your power left text line to this:
-      text("Power left: " + floor((End - frameCount) / frameRate), width - 40, 30);
+      text("Power left: " + floor((End - frameCount) / frameRate), width - 100, 50);
     }
     // Fruit hitbox visual
     //noFill();
@@ -373,7 +373,8 @@ void draw() {
       // }
 
       if (score.paused) {
-        score.loop = true;
+        // score.loop = true;
+        score.currentTime = 0;
         score.volume = 0.3;
         score.play();
       }
@@ -382,6 +383,8 @@ void draw() {
       Score += 1.5;
     } else {
       Score = meatEaten;
+      score.pause();           // Scurry over and pause it the instant counting finishes!
+      score.currentTime = 0;   // Clean up the timeline position
     }
 
     textSize(40);
