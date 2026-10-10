@@ -7,8 +7,7 @@
 */
 
 // Import the nessesary libraries
-import java.util.Arrays;
-import processing.sound.*;
+
 
 // Declare all of the image variables
 PImage luffy, luffyOpen, meat, sword, fruit, sea, dock;
@@ -68,11 +67,11 @@ void setup() {
   dock = loadImage("dock.png");
 
   // Load all of the sounds in
-  eat = "gulp.mp3";
-  score = "score.wav";
-  slice = "slice.mp3";
-  powerup = "powerup.mp3";
-  background = "background.mp3";
+  eat = new Audio("gulp.mp3");
+  score = new Audio("score.wav");
+  slice = new Audio("slice.mp3");
+  powerup = new Audio("powerup.mp3");
+  background = new Audio("background.mp3");
 
   // Load the custom font in
   OnePiece  = createFont("OnePiece.ttf", 48);
@@ -96,11 +95,11 @@ void setup() {
     // just doesnt do anything if there is an error
   }
   */
-  Object savedHighscore = window.localStorage.getItem("qb_highscore");
+  String savedHighscore = localStorage.getItem("qb_highscore");
   if (savedHighscore != null) {
-    highscore = int(savedHighscore.toString());
+    highscore = int(savedHighscore);
   } else {
-    highscore = 0; // Default starting highscore
+    highscore = 0; 
   }
   
   // Position all of the initial meat and swords and set their speeds
@@ -112,10 +111,25 @@ void setup() {
 
 void draw() {
   // Check if the background music is playing and if it isnt then play the background music
+  /*
   if (!background.isPlaying()) {
-    background.play(); // Start looping
+    playSound(background);
+    // background.play(); // Start looping
     background.amp(0.5);
   }
+  */
+  if (background.paused) {
+    background.loop = true;
+    background.volume = 0.3;
+    background.play();
+    try {
+      background.play();
+    } catch(Object e) {
+      // Safely catches browser blocks until the user presses a key to move
+    }
+  }
+
+  
   // Check if playing
   if (active) {
 
@@ -177,14 +191,16 @@ void draw() {
       }
 
       if (checkSwordCollision(SX[i], SY[i])) {
-        slice.play();
-        slice.amp(4);
+        slice.cloneNode(true).play(); 
+        //slice.play();
+        // slice.amp(4);
         reset("sword", i);
         s = s/1.3;          // Shrink Luffy by 30%
       }
       if (checkMeatCollision(MX[i], MY[i])) {
-        eat.play();
-        eat.amp(4);
+        eat.cloneNode(true).play();  
+        //eat.play();
+        // eat.amp(4);
         reset("meat", i);
         meatEaten++;
         s += 20;            // Grow luffy by 20 pixels
@@ -217,8 +233,9 @@ void draw() {
 
     if (checkFruitCollision(FX, FY)) {
       stopFruit();
-      powerup.play();
-      powerup.amp(2);
+      powerup.cloneNode(true).play(); 
+      // powerup.play();
+      // powerup.amp(2);
       time(150);        // Give the player 150 frames of powerup
     }
     
@@ -252,8 +269,9 @@ void draw() {
     if (s/sizeMultiplier < 150) {
       Score = 0;
       active = false;
-      score.play();
-      score.amp(5);
+      score.cloneNode(true).play(); 
+      // score.play();
+      // score.amp(5);
       // Set new highscore
       if (meatEaten > highscore) {
         highscore = meatEaten;
@@ -262,8 +280,8 @@ void draw() {
         // PrintWriter write = createWriter("highscore.txt");
         // write.println(highscore);
         // write.close();
-        window.localStorage.setItem("qb_highscore", str(highscore));
-
+        localStorage.setItem("qb_highscore", str(highscore));
+        
         
       }
     }
@@ -273,8 +291,12 @@ void draw() {
   else {
     // Set all object speeds to 0
     speedF = 0;
-    Arrays.fill(speedS, 0);
-    Arrays.fill(speedM, 0);
+    speedF = 0;
+    for (int i = 0; i < n; i++) {
+      speedS[i] = 0;
+      speedM[i] = 0;
+    }
+
 
     // Redraw everything in the background so it looks like everything froze
     image(sea, 0, 0, width, height);
@@ -337,10 +359,19 @@ void draw() {
     text("You ate "+round(Score)+" pieces of meat", width/2, 410);
     if (Score < meatEaten) {
       // Play the score increasing sound effect
-      if (!score.isPlaying()) {
-        score.play(); // Start looping
-        score.amp(5);
+      // if (!score.isPlaying()) {
+      //   playSound(score); 
+      //   // score.play(); // Start looping
+      //   score.amp(5);
+      // }
+
+      if (score.paused) {
+        score.loop = true;
+        score.volume = 0.3;
+        score.play();
       }
+
+      
       Score += 1.5;
     } else {
       Score = meatEaten;
@@ -459,51 +490,42 @@ void keyPressed() {
   }
 }
 
+
+/*
 // --- COMPILER-SAFE WEB AUDIO HELPERS ---
 void playSound(Object sound) {
   if (sound == null) return;
   String url = (String) sound;
   String slot = getSoundSlot(url);
-  window.eval(
-    "if(!window." + slot + ") { window." + slot + " = new Audio('" + url + "'); }" +
-    "window." + slot + ".currentTime = 0; window." + slot + ".volume = 0.5; window." + slot + ".play().catch(function(e){});"
-  );
+  window[slot] = new Audio(url);
 }
 
 void loopSound(Object sound) {
   if (sound == null) return;
   String url = (String) sound;
   String slot = getSoundSlot(url);
-  window.eval(
-    "if(!window." + slot + ") { window." + slot + " = new Audio('" + url + "'); window." + slot + ".loop = true; }" +
-    "window." + slot + ".volume = 0.4; window." + slot + ".play().catch(function(e){});"
-  );
+  window[slot] = new Audio(url);
 }
 
 void loopSoundClean(Object sound) {
   if (sound == null) return;
   String url = (String) sound;
   String slot = getSoundSlot(url);
-  window.eval(
-    "if(!window." + slot + ") { window." + slot + " = new Audio('" + url + "'); }" +
-    "if(window." + slot + ".paused || window." + slot + ".currentTime > 0.22) {" +
-    "  window." + slot + ".currentTime = 0; window." + slot + ".volume = 0.3; window." + slot + ".play().catch(function(e){});" +
-    "}"
-  );
+  window[slot] = new Audio(url);
 }
 
 void stopSound(Object sound) {
   if (sound == null) return;
   String url = (String) sound;
   String slot = getSoundSlot(url);
-  window.eval("if(window." + slot + ") { window." + slot + " = null; window." + slot + ".pause(); window." + slot + ".currentTime = 0; }");
+  window[slot] = new Audio(url);
 }
 
 boolean isSoundPlaying(Object sound) {
   if (sound == null) return false;
   String url = (String) sound;
   String slot = getSoundSlot(url);
-  Object state = window.eval("window." + slot + " ? !window." + slot + ".paused : false;");
+  window[slot] = new Audio(url);
   return boolean("" + state);
 }
 
@@ -513,3 +535,4 @@ String getSoundSlot(String url) {
   if (url.indexOf("Sci-Fi") != -1) return "_sndMusic";
   return "_sndGeneric";
 }
+*/
