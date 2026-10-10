@@ -75,9 +75,9 @@ void setup() {
   powerup = new Audio("powerup.mp3");
   background = new Audio("background.mp3");
 
-  
+  score.volume      = 0.01;
   powerup.volume    = 0.05; // Soft fruit collection sound
-  background.volume = 0.3; // Music is slightly higher so it sits gently under the effects
+  background.volume = 0.02; // Music is slightly higher so it sits gently under the effects
 
   // Load the custom font in
   OnePiece  = createFont("OnePiece.ttf", 48);
