@@ -75,11 +75,11 @@ void setup() {
   powerup = new Audio("powerup.mp3");
   background = new Audio("background.mp3");
 
-  eat.volume        = 0.15; // Soft gulp
-  slice.volume      = 0.15; // Soft sword slice (automatically fixes cloneNode volume!)
-  powerup.volume    = 0.15; // Soft fruit collection sound
-  score.volume      = 0.15; // Soft game over tally sound
-  background.volume = 0.25; // Music is slightly higher so it sits gently under the effects
+  eat.volume        = 0.015; // Soft gulp
+  slice.volume      = 0.015; // Soft sword slice (automatically fixes cloneNode volume!)
+  powerup.volume    = 0.005; // Soft fruit collection sound
+  score.volume      = 0.005; // Soft game over tally sound
+  background.volume = 0.15; // Music is slightly higher so it sits gently under the effects
 
   // Load the custom font in
   OnePiece  = createFont("OnePiece.ttf", 48);
