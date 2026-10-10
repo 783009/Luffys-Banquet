@@ -58,7 +58,7 @@ int Start, End;                           // Beginning and ending Framecount for
 
 void setup() {
   size(800, 600);
-  frameRate(20); 
+  frameRate(30); 
   // Load all of the images in
   luffy = loadImage("luffy.png");
   luffyOpen = loadImage("luffyOpen.png");
@@ -136,6 +136,9 @@ void draw() {
   // Check if playing
   if (active) {
 
+    score.pause();
+    score.currentTime = 0;
+    Score = 0;
     // Draw the background
     image(sea, 0, 0, width, height);
     image(dock, 0, 300, width, 300);
@@ -247,7 +250,7 @@ void draw() {
       fill(0);
       textAlign(RIGHT);
       // Change your power left text line to this:
-      text("Power left: " + floor((End - frameCount) / frameRate), width - 20, 30);
+      text("Power left: " + floor((End - frameCount) / frameRate), width - 40, 30);
     }
     // Fruit hitbox visual
     //noFill();
@@ -480,7 +483,7 @@ void keyPressed() {
   if ((keyCode == ENTER || key == ' ') && !active) {
     score.pause();
     score.currentTime = 0;
-    Score = 0
+    Score = 0;
     active = true;
     moveLeft = false;
     moveRight = false;
