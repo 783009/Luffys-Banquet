@@ -123,7 +123,7 @@ void draw() {
   */
   if (background.paused) {
     background.loop = true;
-    background.volume = 0.9;
+    background.volume = 0.3;
     background.play();
     try {
       background.play();
@@ -197,14 +197,19 @@ void draw() {
       }
 
       if (checkSwordCollision(SX[i], SY[i])) {
-        slice.cloneNode(true).play(); 
+        Object clonedSlice = slice.cloneNode(true);
+        clonedSlice.volume = 0.33; // Sets the volume to 1/3rd of the max
+        clonedSlice.play(); 
         //slice.play();
         // slice.amp(4);
         reset("sword", i);
         s = s/1.3;          // Shrink Luffy by 30%
       }
       if (checkMeatCollision(MX[i], MY[i])) {
-        eat.cloneNode(true).play();  
+        Object clonedEat = eat.cloneNode(true);
+        clonedEat.volume = 0.33; // Sets the volume to 1/3rd of the max
+        clonedEat.play();
+        
         //eat.play();
         // eat.amp(4);
         reset("meat", i);
@@ -239,7 +244,9 @@ void draw() {
 
     if (checkFruitCollision(FX, FY)) {
       stopFruit();
-      powerup.cloneNode(true).play(); 
+      Object clonedPowerup = powerup.cloneNode(true);
+      clonedPowerup.volume = 0.33; // Sets the volume to 1/3rd of the max
+      clonedPowerup.play();
       // powerup.play();
       // powerup.amp(2);
       time(150);        // Give the player 150 frames of powerup
@@ -276,7 +283,9 @@ void draw() {
     if (s/sizeMultiplier < 150) {
       Score = 0;
       active = false;
-      score.cloneNode(true).play(); 
+      Object clonedScore = score.cloneNode(true);
+      clonedScore.volume = 0.33; // Sets the volume to 1/3rd of the max
+      clonedScore.play();
       // score.play();
       // score.amp(5);
       // Set new highscore
@@ -375,7 +384,7 @@ void draw() {
       if (score.paused) {
         // score.loop = true;
         score.currentTime = 0;
-        score.volume = 0.3;
+        score.volume = 0.1;
         score.play();
       }
 
