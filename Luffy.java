@@ -56,7 +56,7 @@ int Start, End;                           // Beginning and ending Framecount for
 
 void setup() {
   size(800, 600);
-
+  frameRate(30); 
   // Load all of the images in
   luffy = loadImage("luffy.png");
   luffyOpen = loadImage("luffyOpen.png");
@@ -111,6 +111,7 @@ void setup() {
 
 void draw() {
   // Check if the background music is playing and if it isnt then play the background music
+  
   /*
   if (!background.isPlaying()) {
     playSound(background);
@@ -120,7 +121,7 @@ void draw() {
   */
   if (background.paused) {
     background.loop = true;
-    background.volume = 0.3;
+    background.volume = 0.9;
     background.play();
     try {
       background.play();
@@ -474,6 +475,8 @@ void keyPressed() {
   }
   // Replay game logic
   if ((keyCode == ENTER || key == ' ') && !active) {
+    score.pause();
+    score.currentTime = 0;
     active = true;
     moveLeft = false;
     moveRight = false;
