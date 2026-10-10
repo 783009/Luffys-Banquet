@@ -1,3 +1,5 @@
+/* @pjs font="OnePiece.ttf"; */
+
 /*
   name: Mohamed Lahkim
   date: May 22
@@ -56,7 +58,7 @@ int Start, End;                           // Beginning and ending Framecount for
 
 void setup() {
   size(800, 600);
-  frameRate(30); 
+  frameRate(20); 
   // Load all of the images in
   luffy = loadImage("luffy.png");
   luffyOpen = loadImage("luffyOpen.png");
@@ -244,7 +246,8 @@ void draw() {
     if (sizeMultiplier != 1) {
       fill(0);
       textAlign(RIGHT);
-      text("Power left: "+((End-frameCount)/(int)frameRate), width - 20, 30);
+      // Change your power left text line to this:
+      text("Power left: " + floor((End - frameCount) / frameRate), width - 20, 30);
     }
     // Fruit hitbox visual
     //noFill();
@@ -477,6 +480,7 @@ void keyPressed() {
   if ((keyCode == ENTER || key == ' ') && !active) {
     score.pause();
     score.currentTime = 0;
+    Score = 0
     active = true;
     moveLeft = false;
     moveRight = false;
