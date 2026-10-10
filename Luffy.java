@@ -75,6 +75,12 @@ void setup() {
   powerup = new Audio("powerup.mp3");
   background = new Audio("background.mp3");
 
+  eat.volume        = 0.15; // Soft gulp
+  slice.volume      = 0.15; // Soft sword slice (automatically fixes cloneNode volume!)
+  powerup.volume    = 0.15; // Soft fruit collection sound
+  score.volume      = 0.15; // Soft game over tally sound
+  background.volume = 0.25; // Music is slightly higher so it sits gently under the effects
+
   // Load the custom font in
   OnePiece  = createFont("OnePiece.ttf", 48);
   // Use the custom One Piece font
@@ -123,7 +129,6 @@ void draw() {
   */
   if (background.paused) {
     background.loop = true;
-    background.volume = 0.033;
     background.play();
     try {
       background.play();
@@ -198,7 +203,6 @@ void draw() {
 
       if (checkSwordCollision(SX[i], SY[i])) {
         Object clonedSlice = slice.cloneNode(true);
-        clonedSlice.volume = 0.33; // Sets the volume to 1/3rd of the max
         clonedSlice.play(); 
         //slice.play();
         // slice.amp(4);
@@ -207,7 +211,6 @@ void draw() {
       }
       if (checkMeatCollision(MX[i], MY[i])) {
         Object clonedEat = eat.cloneNode(true);
-        clonedEat.volume = 0.33; // Sets the volume to 1/3rd of the max
         clonedEat.play();
         
         //eat.play();
@@ -245,7 +248,6 @@ void draw() {
     if (checkFruitCollision(FX, FY)) {
       stopFruit();
       Object clonedPowerup = powerup.cloneNode(true);
-      clonedPowerup.volume = 0.33; // Sets the volume to 1/3rd of the max
       clonedPowerup.play();
       // powerup.play();
       // powerup.amp(2);
@@ -284,7 +286,6 @@ void draw() {
       Score = 0;
       active = false;
       Object clonedScore = score.cloneNode(true);
-      clonedScore.volume = 0.033; // Sets the volume to 1/3rd of the max
       clonedScore.play();
       // score.play();
       // score.amp(5);
@@ -384,7 +385,6 @@ void draw() {
       if (score.paused) {
         // score.loop = true;
         score.currentTime = 0;
-        score.volume = 0.0033;
         score.play();
       }
 
