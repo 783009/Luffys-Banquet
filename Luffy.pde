@@ -123,7 +123,7 @@ void draw() {
   */
   if (background.paused) {
     background.loop = true;
-    background.volume = 0.1;
+    background.volume = 0.033;
     background.play();
     try {
       background.play();
@@ -284,7 +284,7 @@ void draw() {
       Score = 0;
       active = false;
       Object clonedScore = score.cloneNode(true);
-      clonedScore.volume = 0.33; // Sets the volume to 1/3rd of the max
+      clonedScore.volume = 0.033; // Sets the volume to 1/3rd of the max
       clonedScore.play();
       // score.play();
       // score.amp(5);
@@ -384,7 +384,7 @@ void draw() {
       if (score.paused) {
         // score.loop = true;
         score.currentTime = 0;
-        score.volume = 0.033;
+        score.volume = 0.0033;
         score.play();
       }
 
