@@ -123,7 +123,7 @@ void draw() {
   */
   if (background.paused) {
     background.loop = true;
-    background.volume = 0.3;
+    background.volume = 0.1;
     background.play();
     try {
       background.play();
@@ -384,7 +384,7 @@ void draw() {
       if (score.paused) {
         // score.loop = true;
         score.currentTime = 0;
-        score.volume = 0.1;
+        score.volume = 0.033;
         score.play();
       }
 
