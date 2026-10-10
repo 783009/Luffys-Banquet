@@ -14,7 +14,7 @@ import processing.sound.*;
 PImage luffy, luffyOpen, meat, sword, fruit, sea, dock;
 
 // Declare all of the sound effect variables
-SoundFile eat, score, slice, powerup, background;
+Object eat, score, slice, powerup, background;
 
 // Declare the custom font variable
 PFont OnePiece;
@@ -68,11 +68,11 @@ void setup() {
   dock = loadImage("dock.png");
 
   // Load all of the sounds in
-  eat = new SoundFile(this, "gulp.mp3");
-  score = new SoundFile(this, "score.wav");
-  slice = new SoundFile(this, "slice.mp3");
-  powerup = new SoundFile(this, "powerup.mp3");
-  background = new SoundFile(this, "background.mp3");
+  eat = "gulp.mp3";
+  score = "score.wav";
+  slice = "slice.mp3";
+  powerup = "powerup.mp3";
+  background = "background.mp3";
 
   // Load the custom font in
   OnePiece  = createFont("OnePiece.ttf", 48);
@@ -80,6 +80,7 @@ void setup() {
   textFont(OnePiece);
 
 
+  /*
   // Read "highscore.txt" to get the saved highscore
   String line = "";
   try {
@@ -94,7 +95,14 @@ void setup() {
   catch(IOException e) {
     // just doesnt do anything if there is an error
   }
-
+  */
+  Object savedHighscore = window.localStorage.getItem("qb_highscore");
+  if (savedHighscore != null) {
+    highscore = int(savedHighscore.toString());
+  } else {
+    highscore = 0; // Default starting highscore
+  }
+  
   // Position all of the initial meat and swords and set their speeds
   for (int i = 0; i < n; i++) {
     reset("meat", i);
@@ -251,9 +259,12 @@ void draw() {
         highscore = meatEaten;
         
         // Write the new highscore to "highscore.txt"
-        PrintWriter write = createWriter("highscore.txt");
-        write.println(highscore);
-        write.close();
+        // PrintWriter write = createWriter("highscore.txt");
+        // write.println(highscore);
+        // write.close();
+        window.localStorage.setItem("qb_highscore", str(highscore));
+
+        
       }
     }
   }
@@ -446,4 +457,59 @@ void keyPressed() {
       reset("sword", i);
     }
   }
+}
+
+// --- COMPILER-SAFE WEB AUDIO HELPERS ---
+void playSound(Object sound) {
+  if (sound == null) return;
+  String url = (String) sound;
+  String slot = getSoundSlot(url);
+  window.eval(
+    "if(!window." + slot + ") { window." + slot + " = new Audio('" + url + "'); }" +
+    "window." + slot + ".currentTime = 0; window." + slot + ".volume = 0.5; window." + slot + ".play().catch(function(e){});"
+  );
+}
+
+void loopSound(Object sound) {
+  if (sound == null) return;
+  String url = (String) sound;
+  String slot = getSoundSlot(url);
+  window.eval(
+    "if(!window." + slot + ") { window." + slot + " = new Audio('" + url + "'); window." + slot + ".loop = true; }" +
+    "window." + slot + ".volume = 0.4; window." + slot + ".play().catch(function(e){});"
+  );
+}
+
+void loopSoundClean(Object sound) {
+  if (sound == null) return;
+  String url = (String) sound;
+  String slot = getSoundSlot(url);
+  window.eval(
+    "if(!window." + slot + ") { window." + slot + " = new Audio('" + url + "'); }" +
+    "if(window." + slot + ".paused || window." + slot + ".currentTime > 0.22) {" +
+    "  window." + slot + ".currentTime = 0; window." + slot + ".volume = 0.3; window." + slot + ".play().catch(function(e){});" +
+    "}"
+  );
+}
+
+void stopSound(Object sound) {
+  if (sound == null) return;
+  String url = (String) sound;
+  String slot = getSoundSlot(url);
+  window.eval("if(window." + slot + ") { window." + slot + " = null; window." + slot + ".pause(); window." + slot + ".currentTime = 0; }");
+}
+
+boolean isSoundPlaying(Object sound) {
+  if (sound == null) return false;
+  String url = (String) sound;
+  String slot = getSoundSlot(url);
+  Object state = window.eval("window." + slot + " ? !window." + slot + ".paused : false;");
+  return boolean("" + state);
+}
+
+String getSoundSlot(String url) {
+  // Matches your unique filenames to a safe browser registration variable
+  if (url.indexOf("jump") != -1) return "_sndJump";
+  if (url.indexOf("Sci-Fi") != -1) return "_sndMusic";
+  return "_sndGeneric";
 }
