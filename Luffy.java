@@ -75,11 +75,9 @@ void setup() {
   powerup = new Audio("powerup.mp3");
   background = new Audio("background.mp3");
 
-  eat.volume        = 0.015; // Soft gulp
-  slice.volume      = 0.015; // Soft sword slice (automatically fixes cloneNode volume!)
-  powerup.volume    = 0.005; // Soft fruit collection sound
-  score.volume      = 0.005; // Soft game over tally sound
-  background.volume = 0.15; // Music is slightly higher so it sits gently under the effects
+  
+  powerup.volume    = 0.05; // Soft fruit collection sound
+  background.volume = 0.3; // Music is slightly higher so it sits gently under the effects
 
   // Load the custom font in
   OnePiece  = createFont("OnePiece.ttf", 48);
@@ -203,6 +201,7 @@ void draw() {
 
       if (checkSwordCollision(SX[i], SY[i])) {
         Object clonedSlice = slice.cloneNode(true);
+        clonedSlice.volume = 0.15;
         clonedSlice.play(); 
         //slice.play();
         // slice.amp(4);
@@ -211,6 +210,7 @@ void draw() {
       }
       if (checkMeatCollision(MX[i], MY[i])) {
         Object clonedEat = eat.cloneNode(true);
+        clonedEat.volume = 0.15;
         clonedEat.play();
         
         //eat.play();
@@ -247,8 +247,7 @@ void draw() {
 
     if (checkFruitCollision(FX, FY)) {
       stopFruit();
-      Object clonedPowerup = powerup.cloneNode(true);
-      clonedPowerup.play();
+      powerup.play();
       // powerup.play();
       // powerup.amp(2);
       time(150);        // Give the player 150 frames of powerup
@@ -286,6 +285,7 @@ void draw() {
       Score = 0;
       active = false;
       Object clonedScore = score.cloneNode(true);
+      clonedScore.volume = 0.1;
       clonedScore.play();
       // score.play();
       // score.amp(5);
