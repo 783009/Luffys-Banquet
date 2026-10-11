@@ -258,7 +258,7 @@ void draw() {
       fill(0);
       textAlign(RIGHT);
       // Change your power left text line to this:
-      text("Power left: " + floor((End - frameCount) / frameRate), width - 100, 50);
+      text("Power left: " + (floor((End - frameCount) / frameRate) + 1), width - 100, 50);
     }
     // Fruit hitbox visual
     //noFill();
