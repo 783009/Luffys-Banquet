@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Processing Web Game</title>
+    <title>Luffy's Banquet</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
             background-color: #0c141c;
             margin: 0;
@@ -11,10 +14,19 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            width: 100vw;
             overflow: hidden;
         }
         canvas {
             outline: none;
+            /* Auto-scaling container boundaries */
+            max-width: 100%;
+            max-height: 100%;
+            /* Forces browser to preserve your 800x600 math layout perfectly */
+            aspect-ratio: 800 / 600; 
+            /* Optional: Keeps pixel art sharp on high-DPI retina monitors */
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
         }
     </style>
     <script src="processing.min.js"></script>
