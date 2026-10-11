@@ -19,9 +19,14 @@
         }
         canvas {
             outline: none;
-            max-width: 100%;
-            max-height: 100%;
-            aspect-ratio: 800 / 600; 
+            /* Forces the canvas drawing area to expand to 100% of your screen */
+            width: 100vw;
+            height: 100vh;
+            
+            /* Remove or comment out aspect-ratio entirely so it doesn't limit the growth */
+            /* aspect-ratio: 800 / 600; */
+            
+            /* Keeps images clean even when force-stretching across your monitor resolution */
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
         }
