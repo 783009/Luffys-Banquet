@@ -75,8 +75,8 @@ void setup() {
   powerup = new Audio("powerup.mp3");
   background = new Audio("background.mp3");
 
-  score.volume      = 0.01;
-  powerup.volume    = 0.05; // Soft fruit collection sound
+  score.volume      = 0.025;
+  powerup.volume    = 0.025; // Soft fruit collection sound
   background.volume = 0.02; // Music is slightly higher so it sits gently under the effects
 
   // Load the custom font in
@@ -201,7 +201,7 @@ void draw() {
 
       if (checkSwordCollision(SX[i], SY[i])) {
         Object clonedSlice = slice.cloneNode(true);
-        clonedSlice.volume = 0.15;
+        clonedSlice.volume = 0.06;
         clonedSlice.play(); 
         //slice.play();
         // slice.amp(4);
@@ -210,7 +210,7 @@ void draw() {
       }
       if (checkMeatCollision(MX[i], MY[i])) {
         Object clonedEat = eat.cloneNode(true);
-        clonedEat.volume = 0.15;
+        clonedEat.volume = 0.06;
         clonedEat.play();
         
         //eat.play();
@@ -285,7 +285,7 @@ void draw() {
       Score = 0;
       active = false;
       Object clonedScore = score.cloneNode(true);
-      clonedScore.volume = 0.1;
+      clonedScore.volume = 0.025;
       clonedScore.play();
       // score.play();
       // score.amp(5);
