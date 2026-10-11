@@ -201,7 +201,7 @@ void draw() {
 
       if (checkSwordCollision(SX[i], SY[i])) {
         Object clonedSlice = slice.cloneNode(true);
-        clonedSlice.volume = 0.06;
+        clonedSlice.volume = 0.09;
         clonedSlice.play(); 
         //slice.play();
         // slice.amp(4);
@@ -210,7 +210,7 @@ void draw() {
       }
       if (checkMeatCollision(MX[i], MY[i])) {
         Object clonedEat = eat.cloneNode(true);
-        clonedEat.volume = 0.06;
+        clonedEat.volume = 0.07;
         clonedEat.play();
         
         //eat.play();
