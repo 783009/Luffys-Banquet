@@ -19,17 +19,19 @@
         }
         canvas {
             outline: none;
-            /* Forces the canvas drawing area to expand to 100% of your screen */
-            width: 100vw;
-            height: 100vh;
+            /* Forces the canvas to dynamically expand as big as your monitor allows */
+            width: 95vw;
+            height: 95vh;
             
-            /* Remove or comment out aspect-ratio entirely so it doesn't limit the growth */
-            /* aspect-ratio: 800 / 600; */
+            /* Locks the proportions so Luffy doesn't look fat or distorted */
+            object-fit: contain;
             
-            /* Keeps images clean even when force-stretching across your monitor resolution */
+            /* Stops the browser from blurring your sprites when it blows them up */
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
+            image-rendering: pixelated;
         }
+
     </style>
     <script src="processing.min.js"></script>
 </head>
